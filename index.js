@@ -14,9 +14,11 @@ passport.use(
 			clientSecret: keys.googleClientSecret,
 			callbackURL: '/auth/google/callback', // route user is directed to after granting permission (includes user's "code" as query string)
         },
-        // Verifies with callback function for "/auth/google/callback?code=<code>" route handler
-		(accessToken) => {
-			console.log(accessToken)
+        // Verifies with callback function for "/auth/google/callback?code=<code>" route handler (where we enter user into database)
+		(accessToken, refreshToken, profile, done) => {
+			console.log('access token', accessToken) // access token is saved by google to remember the permissions granted
+            console.log('refresh token', refreshToken) // used for updating permissions (more for authorization which we won't need)
+            console.log('profile', profile) // contains all the information about our user
 		},
 	),
 )
