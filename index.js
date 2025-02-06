@@ -11,12 +11,19 @@ passport.use(
 		{
 			clientID: keys.googleClientID,
 			clientSecret: keys.googleClientSecret,
-			callbackURL: '/auth/google/callback', // route user is directed to after granting permission (includes user's "code")
+			callbackURL: '/auth/google/callback', // route user is directed to after granting permission (includes user's "code" as query string)
 		},
 		(accessToken) => {
 			console.log(accessToken)
 		},
 	),
+)
+
+app.get(
+	'/auth/google', // route to enter into oauth flow
+	passport.authenticate('google', { // specifies the strategy based on the identifier existing in GoogleStrategy instance
+		scope: ['profile', 'email'], // specifies permissions
+	}),
 )
 
 const PORT = process.env.PORT || 5000
