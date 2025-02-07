@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
-require('./services/passport.js') // only need the file to run, don't need any variables imported
+require('./services/passport.js')
+require('./models/User.js')
 const keys = require('./config/keys.js')
 
 mongoose.connect(keys.mongoURI)
