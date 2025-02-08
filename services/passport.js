@@ -6,6 +6,20 @@ const keys = require('../config/keys.js')
 // Note: Only one arg to 'model' means we're getting the collection itself (in User.js we provided the schema as the second arg)
 const User = mongoose.model('users')
 
+// serialize user when they first log in
+passport.serializeUser((user, done) => {
+    // use 'user.id' instead of 'user.googleId' in case of multiple passport strategies we want to just use our own internal db id
+    done(null, user.id)
+})
+
+// deserialize user upon future requests
+passport.deserializeUser((id, done) => {
+    User.findById(id)
+        .then((user) => {
+            done(null, user)
+        })
+})
+
 // Inform passport of strategy (1st argument works for 1st auth route, 2nd argument works for 2nd auth route)
 passport.use(
 	new GoogleStrategy(
