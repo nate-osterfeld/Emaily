@@ -16,9 +16,17 @@ passport.use(
 			callbackURL: '/auth/google/callback', // route user is directed to after granting permission (includes user's "code" as query string)
 		},
 		// Verifies with callback function for "/auth/google/callback?code=<code>" route handler (where we enter user into database)
-        (accessToken, refreshToken, profile, done) => {
-            // Model instance (record)
-			new User({ googleId: profile.id }).save()
+		(accessToken, refreshToken, profile, done) => {
+			// check if user exists
+			User.findOne({ googleId: profile.id }).then((existingUser) => {
+				if (existingUser) {
+					// return user
+					done(null, existingUser)
+				} else {
+					// create record then return user
+					new User({ googleId: profile.id }).save().then((user) => done(null, user))
+				}
+			})
 		},
 	),
 )
