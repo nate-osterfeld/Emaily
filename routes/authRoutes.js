@@ -12,7 +12,13 @@ module.exports = (app) => {
 	)
 
 	// route to handle callback from Google after user grants permissions and we get their "code" AKA "verify" callback (2nd argument of new GoogleStrategy)
-	app.get('/auth/google/callback', passport.authenticate('google'))
+    app.get('/auth/google/callback', passport.authenticate('google'))
+    
+    app.get('/api/logout', (req, res) => {
+        // logout is a password helper fn that deletes cookie so no more id for user
+        req.logout()
+        res.send(req.user) // returns undefined now
+    })
 
     // We can now access our user object on the request object!!
 	app.get('/api/current_user', (req, res) => {
