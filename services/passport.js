@@ -28,6 +28,7 @@ passport.use(
 			clientID: keys.googleClientID,
 			clientSecret: keys.googleClientSecret,
 			callbackURL: '/auth/google/callback', // route user is directed to after granting permission (includes user's "code" as query string)
+			proxy: true
 		},
 		// Verifies with callback function for "/auth/google/callback?code=<code>" route handler (where we enter user into database)
 		(accessToken, refreshToken, profile, done) => {
