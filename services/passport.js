@@ -14,10 +14,13 @@ passport.serializeUser((user, done) => {
 
 // deserialize user upon future requests
 passport.deserializeUser((id, done) => {
-    User.findById(id)
-        .then((user) => {
-            done(null, user)
-        })
+	User.findById(id).then((user) => {
+		if (user) {
+			done(null, user)
+		} else {
+			done(null, false) // No valid user found, thus not authenticated
+		}
+	})
 })
 
 // Inform passport of strategy (1st argument works for 1st auth route, 2nd argument works for 2nd auth route)
