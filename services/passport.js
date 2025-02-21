@@ -34,17 +34,15 @@ passport.use(
 			proxy: true
 		},
 		// Verifies with callback function for "/auth/google/callback?code=<code>" route handler (where we enter user into database)
-		(accessToken, refreshToken, profile, done) => {
-			// check if user exists
-			User.findOne({ googleId: profile.id }).then((existingUser) => {
-				if (existingUser) {
-					// return user
-					done(null, existingUser)
-				} else {
-					// create record then return user
-					new User({ googleId: profile.id }).save().then((user) => done(null, user))
-				}
-			})
+		async (accessToken, refreshToken, profile, done) => {
+			const existingUser = await User.findOne({ googleId: profile.id })
+			
+			if (existingUser) {
+				done(null, existingUser)
+			} else {
+				const user = await new User({ googleId: profile.id }).save()
+				done(null, user)
+			}
 		},
 	),
 )
