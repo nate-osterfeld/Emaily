@@ -11,13 +11,20 @@ module.exports = (app) => {
 		}),
 	)
 
-	// route to handle callback from Google after user grants permissions and we get their "code" AKA "verify" callback (2nd argument of new GoogleStrategy)
-    app.get('/auth/google/callback', passport.authenticate('google'))
+	// NOTE: passport.authenticate('google') is the middleware responsible for using the url param: "?code=x"
+	//       to find the user and return it in the callback of the Google Strategy
+	app.get(
+		'/auth/google/callback', // route that receives the code from Google request
+		passport.authenticate('google'), // passport uses that code to get user and serialize data
+		(req, res) => {
+			res.redirect('/surveys') // redirect user to '/surveys' + set-cookie in response
+		}
+	)
     
     app.get('/api/logout', (req, res) => {
         // logout is a password helper fn that deletes cookie so no more id for user
         req.logout()
-        res.send(req.user) // returns undefined now
+		res.redirect('/')
     })
 
     // We can now access our user object on the request object!!
