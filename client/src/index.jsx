@@ -14,3 +14,6 @@ createRoot(document.getElementById('root')).render(
         <App />
     </Provider>
 )
+
+console.log('environment is', process.env.NODE_ENV)
+console.log('stripe key is', process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)

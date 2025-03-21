@@ -13,7 +13,7 @@ const App = () => {
     
     useEffect(() => {
         dispatch(fetchUser())
-    }, [])
+    }, [dispatch])
 
     return (
         <div className='container'>
