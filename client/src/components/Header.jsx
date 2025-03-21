@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Payments from './Payments.jsx'
 
 function renderContent(auth) {
     switch (auth) {
@@ -9,7 +10,10 @@ function renderContent(auth) {
         case false:
             return <li><a href="/auth/google">Login with Google</a></li>
         default:
-            return <li><a href="/api/logout">Logout</a></li>
+            return <>
+                <li><Payments /></li>
+                <li><a href="/api/logout">Logout</a></li>
+            </>
     }
 }
 
