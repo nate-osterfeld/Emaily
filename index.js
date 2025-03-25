@@ -25,6 +25,7 @@ app.use(passport.session())
 // Runs exported functions using express app
 require('./routes/authRoutes.js')(app)
 require('./routes/billingRoutes.js')(app)
+require('./routes/surveyRoutes.js')(app)
 
 if (process.env.NODE_ENV === 'production') {
 	// Serves all static files (main.js, main.css, etc.)
